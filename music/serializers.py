@@ -9,11 +9,11 @@ class MusicSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'artist', 'genre', 'release_date']
 
     def validate_title(self, value):
-        if not value.isalpha():
-            raise serializers.ValidationError("Title must only contain letters")
+        if not value or not value.strip():
+            raise serializers.ValidationError("Title must not be empty.")
         return value
 
     def validate_release_date(self, value):
         if value > timezone.now().date():
-            raise serializers.ValidationError("Release date cannot be in the future")
+            raise serializers.ValidationError("Release date cannot be in the future.")
         return value
